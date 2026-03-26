@@ -31,6 +31,7 @@ The project focuses on **clean UI design**, **structured content**, and **basic 
 
 - Responsive **navigation bar** with hamburger menu
 - **Hero carousel** showcasing Jaipur visuals
+- **Live Weather API** on home page
 - Mandala-inspired **color scheme and background elements**
 - Cards for attractions, shopping, and cuisine
 - **React-based Login/Profile system**
