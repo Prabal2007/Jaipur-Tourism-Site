@@ -68,9 +68,13 @@ sudo rm -f /etc/nginx/sites-enabled/default
 sudo systemctl restart nginx
 
 # Move Files
-if [ -f /home/ubuntu/backend.war ]; then
-    sudo rm -rf /opt/tomcat/webapps/ROOT*
-    sudo mv /home/ubuntu/backend.war /opt/tomcat/webapps/ROOT.war
+if [ -f /home/ubuntu/backend-0.0.1-SNAPSHOT.jar ]; then
+    sudo mkdir -p /var/www/jaipur/backend
+    sudo chown -R ubuntu:ubuntu /var/www/jaipur/backend
+    mv /home/ubuntu/backend-0.0.1-SNAPSHOT.jar /var/www/jaipur/backend/backend-0.0.1-SNAPSHOT.jar 2>/dev/null || cp /home/ubuntu/backend-0.0.1-SNAPSHOT.jar /var/www/jaipur/backend/backend-0.0.1-SNAPSHOT.jar
+    mv /home/ubuntu/start_backend.sh /var/www/jaipur/backend/start_backend.sh 2>/dev/null || cp /home/ubuntu/start_backend.sh /var/www/jaipur/backend/start_backend.sh
+    mv /home/ubuntu/.env /var/www/jaipur/backend/.env 2>/dev/null || cp /home/ubuntu/.env /var/www/jaipur/backend/.env
+    chmod +x /var/www/jaipur/backend/start_backend.sh
 fi
 if [ -f /home/ubuntu/dist.zip ]; then
     sudo mkdir -p /var/www/jaipur/frontend
@@ -78,10 +82,15 @@ if [ -f /home/ubuntu/dist.zip ]; then
 fi
 
 
-# Restart Tomcat
-sudo fuser -k 8005/tcp || true
-sudo fuser -k 8080/tcp || true
+# Stop Tomcat and free up port 8080/8005
+sudo /opt/tomcat/bin/shutdown.sh 2>/dev/null || true
+sudo fuser -k 8080/tcp 2>/dev/null || true
 sleep 2
-sudo /opt/tomcat/bin/startup.sh
+
+# Start Standalone Backend JAR
+if [ -f /var/www/jaipur/backend/start_backend.sh ]; then
+    cd /var/www/jaipur/backend
+    ./start_backend.sh
+fi
 
 echo "Royal Deployment Complete!"
