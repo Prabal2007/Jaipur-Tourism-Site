@@ -121,6 +121,9 @@ Follow these steps to run both the frontend and backend environments on your loc
 ---
 
 ## 👥 Contributors
-Proudly developed by first-year B.Tech students at **IIIT Lucknow**.
+- Nayan Gupta: @NayanG-45
+- Freny: Freny07
+- Prabal Verma: Prabal2007
+- Bikash Kumar Meher: bikash-m007
 
 *Feel free to star ⭐ the repository if you like our project!*
